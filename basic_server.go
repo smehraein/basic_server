@@ -5,6 +5,7 @@ import (
   "fmt"
   "net/http"
   "html/template"
+  "github.com/smehraein/basic_server/utils/sanitize"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +21,8 @@ func login(w http.ResponseWriter, r *http.Request) {
     // Display values
     fmt.Println("username:", r.Form["username"])
     fmt.Println("password:", r.Form["password"])
-    mux["/"](w, r)
+    fmt.Println("validEmail:", sanitize.Email(r.Form["email"][0]))
+    io.WriteString(w, "Logged in!")
  }
 }
 

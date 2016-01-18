@@ -2,11 +2,26 @@ package main
 
 import (
   "io"
+  "fmt"
   "net/http"
+  "html/template"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
   io.WriteString(w, "Hello world!")
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+ if r.Method == "GET" {
+    t, _ := template.ParseFiles("login.gtpl")
+    t.Execute(w, nil)
+ } else {
+    r.ParseForm()
+    // Display values
+    fmt.Println("username:", r.Form["username"])
+    fmt.Println("password:", r.Form["password"])
+    mux["/"](w, r)
+ }
 }
 
 var mux map[string]func(http.ResponseWriter, *http.Request)
@@ -16,7 +31,8 @@ func main() {
     Addr:   ":8000",
     Handler: &myHandler{},
   }
-  mux := make(map[string]func(http.ResponseWriter, *http.Request))
+  mux = make(map[string]func(http.ResponseWriter, *http.Request))
+  mux["/login"] = login
   mux["/"] = hello
   server.ListenAndServe()
 }

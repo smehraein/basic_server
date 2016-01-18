@@ -4,7 +4,7 @@ This is an exercise in learning a new language (Go, in this case) through buildi
 ##Features
 * Basic text landing page
 * Can accept user inputs through '/login'
-* Can determine whether emails entered by the user are valid
+* Can determine whether inputs entered by the user are valid
 * Testing harness on utility packages
 
 ##File Structure

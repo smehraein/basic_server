@@ -5,10 +5,12 @@ This is an exercise in learning a new language (Go, in this case) through buildi
 * Basic text landing page
 * Can accept user inputs through '/login'
 * Can determine whether inputs entered by the user are valid
+* Connects to a PostgreSQL databae
+* Fully docker-ized with Docker Compose
 * Testing harness on utility packages
 
 ##File Structure
-* **utils**/: Contains utility packages and their testing harnesses
 * **login.gtpl**: HTML template for login page/form
-* **basic_server.go**: main package
-* **basic_server**: compiled binary
+* **basic_server_go.go**: main package
+* **basic_server_go**: compiled binary
+* See other repos for information about associated utility packages. TODO: Add links

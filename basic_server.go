@@ -9,17 +9,13 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
 var db *sql.DB
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	err := db.Ping()
-	if err != nil {
-		io.WriteString(w, "Awwww.")
-	} else {
-		io.WriteString(w, "GOT DB")
-	}
+	io.WriteString(w, os.Getenv("DBHOST"))
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +39,12 @@ func main() {
 		Addr:    ":8000",
 		Handler: &myHandler{},
 	}
-	DBINFO := pgdbGO.PGConnection{"postgres", "", "postgres", "localhost"}
+	var DBINFO pgdbGO.PGConnection
+	if envHost := os.Getenv("DBHOST"); envHost != "" {
+		DBINFO = pgdbGO.PGConnection{"postgres", "", "postgres", envHost}
+	} else {
+		DBINFO = pgdbGO.PGConnection{"postgres", "", "postgres", "localhost"}
+	}
 	var connErr error
 	db, connErr = pgdbGO.Connect(DBINFO)
 	if connErr != nil {

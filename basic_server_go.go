@@ -39,14 +39,13 @@ func main() {
 		Addr:    ":8000",
 		Handler: &myHandler{},
 	}
-	var DBINFO pgdbGO.PGConnection
-	if envHost := os.Getenv("DBHOST"); envHost != "" {
-		DBINFO = pgdbGO.PGConnection{"postgres", "", "postgres", envHost}
-	} else {
-		DBINFO = pgdbGO.PGConnection{"postgres", "", "postgres", "localhost"}
+	envHost := os.Getenv("DBHOST")
+	if envHost == "" {
+		envHost = "localhost"
 	}
+	dbInfo := pgdbGO.PGConnection{"postgres", "", "postgres", envHost}
 	var connErr error
-	db, connErr = pgdbGO.Connect(DBINFO)
+	db, connErr = pgdbGO.Connect(dbInfo)
 	if connErr != nil {
 		log.Fatal(connErr)
 	}
